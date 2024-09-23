@@ -10,7 +10,6 @@ export function generateUUID() {
 }
 
 export const test = baseTest.extend({
-
   context: async ({ context }, use) => {
     await context.addInitScript(() =>
       window.addEventListener("beforeunload", () =>
