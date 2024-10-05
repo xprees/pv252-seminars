@@ -25,5 +25,5 @@ test("test-my-page-index-title", async ({ page }) => {
 
 test("test-my-page-projects-title", async ({ page }) => {
   await page.goto("https://xprees.com/projects");
-  await expect(page).toHaveTitle(/xprees.*/);
+  await expect(page).toHaveTitle(/[Pp]rojects.*/);
 });
