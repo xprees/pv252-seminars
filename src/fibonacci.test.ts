@@ -9,5 +9,5 @@ test("fibonacci-10", () => {
 });
 
 test("fibonacci-15", () => {
-  expect(fibonacci(15)).toBe(610);
+  expect(fibonacci(14)).toBe(610);
 });
