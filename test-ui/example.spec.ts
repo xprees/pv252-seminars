@@ -11,6 +11,15 @@ test("find-settings", async ({ page }) => {
   await expect(page.getByTestId("settings")).toBeInViewport();
 });
 
+test("goto-site-a", async ({ page }) => {
+  await page.goto("/");
+  const linkPageA = page.getByTestId("menu-site-a");
+  await expect(linkPageA).toBeInViewport();
+  await linkPageA.click();
+  await page.waitForLoadState();
+  await expect(page).toHaveURL(/site_a.*/);
+});
+
 test("test-my-page-loading-img", async ({ page }) => {
   await page.goto("https://xprees.com");
   const img = page.getByAltText("Hero Image");
