@@ -75,9 +75,6 @@ export class LazyList<T> extends HTMLElement {
     this.#listElement.onscroll = () => {
       this.#scrollPositionChanged(this.#listElement.scrollTop);
     };
-
-    // Remove this once you are actually showing some data in the list.
-    // this.innerHTML = "<span> Some content </span>"
   }
 
   setData(data: T[]) {
