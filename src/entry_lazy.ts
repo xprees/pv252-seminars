@@ -7,6 +7,6 @@ initMenu(document.querySelector<HTMLElement>(".main-menu")!, "menu-lazy-list");
 
 const list = document.querySelector<LazyList<Person>>("#lazy-list")!;
 list.setRenderer(renderPerson);
-list.setData(loadFamousPeople().slice(0, 100));
+list.setData(loadFamousPeople());
 
 console.log("Lazy site initialized...");
