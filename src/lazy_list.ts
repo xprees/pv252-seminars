@@ -98,7 +98,12 @@ export class LazyList<T> extends HTMLElement {
 
   #scrollPositionChanged(topOffset: number) {
     this.#itemHeight = 365;
-    this.#visiblePosition = Math.floor(topOffset / this.#itemHeight);
+    const updatedVisiblePosition = Math.floor(topOffset / this.#itemHeight);
+    if (updatedVisiblePosition === this.#visiblePosition) {
+      return;
+    }
+
+    this.#visiblePosition = updatedVisiblePosition;
     const endIndex = Math.min(
       this.#data.length,
       this.#visiblePosition + this.#visibleItemsCount,
