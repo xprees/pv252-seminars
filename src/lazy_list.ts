@@ -41,17 +41,13 @@ export class LazyList<T> extends HTMLElement {
   // By default, the list is empty.
   #data: T[] = [];
 
-  #itemHeight = 10;
+  #itemHeight = 0;
 
   // The index of the first visible data item.
   #visiblePosition: number = 0;
   #visibleItemsCount: number = 4;
 
-  // The amount of space that needs to be shown before the first visible item.
-  #topOffset: number = 0;
   #topOffsetElement: HTMLElement;
-  // The amount of space that needs to be shown after the last visible item.
-  #bottomOffset: number = 0;
   #bottomOffsetElement: HTMLElement;
 
   // The container that stores the spacer elements and the slot where items are inserted.
@@ -92,7 +88,6 @@ export class LazyList<T> extends HTMLElement {
 
   #contentChanged() {
     this.innerHTML = "";
-    this.#itemHeight = 360;
     for (const item of this.#data.slice(
       this.#visiblePosition,
       this.#visiblePosition + this.#visibleItemsCount,
@@ -102,26 +97,16 @@ export class LazyList<T> extends HTMLElement {
   }
 
   #scrollPositionChanged(topOffset: number) {
+    this.#itemHeight = 365;
     this.#visiblePosition = Math.floor(topOffset / this.#itemHeight);
-    this.#topOffset = topOffset - this.#visibleItemsCount * this.#itemHeight;
+    const endIndex = Math.min(
+      this.#data.length,
+      this.#visiblePosition + this.#visibleItemsCount,
+    );
 
-    // Update the height of the top offset to match the current scroll position.
-    // The effect should be that the content stays visible in one even
-    // though the user is scrolling.
-    this.#topOffsetElement.style.height = `${this.#topOffset}px`;
-    // Because the browser will "shift" the visible area to match the height change
-    // we just did, we need to also reset the scroll position to
-    // the one we originally observed (i.e. the one to which we are
-    // adjusting the offset).
-    this.#listElement.scrollTop = topOffset;
+    this.#topOffsetElement.style.height = `${this.#visiblePosition * this.#itemHeight}px`;
+    this.#bottomOffsetElement.style.height = `${(this.#data.length - endIndex) * this.#itemHeight}px`;
 
-    // Update the height of the bottom offset to match the current scroll position.
-    // The effect should be that the content stays visible in one even
-    // though the user is scrolling.
-    const totalHeight = this.#data.length * this.#itemHeight;
-    this.#bottomOffset =
-      totalHeight - topOffset - this.#visibleItemsCount * this.#itemHeight;
-    this.#bottomOffsetElement.style.height = `${this.#bottomOffset}px`;
     this.#contentChanged();
   }
 }
