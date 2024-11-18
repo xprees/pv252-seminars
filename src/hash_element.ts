@@ -50,6 +50,11 @@ export class HashElement extends FASTElement {
       this.remaining = fileProgress.remaining;
       this.elapsed = fileProgress.elapsed;
       this.hash = fileProgress.hash;
+
+      // Cleanup the worker once the hash is computed.
+      if (fileProgress.hash !== null) {
+        hashWorker.terminate();
+      }
     };
 
     hashWorker.postMessage(file);
